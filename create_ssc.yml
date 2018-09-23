@@ -4,8 +4,11 @@
   tasks:
     - name: Add repository
       yum_repository: name=epel description="EPEL YUM repo" baseurl=https://download.fedoraproject.org/pub/epel/$releasever/$basearch/ gpgcheck=no
-    - name: Install Pip
-      yum: name=python2-pip state=installed
+    - name: Install Pip and mod_ssl
+      yum: name="{{ item }}" state=installed
+      loop:
+        - python2-pip 
+        - mod_ssl
     - name: Install Pyopenssl
       pip: name=pyopenssl
     - name: Create directory for private_key
