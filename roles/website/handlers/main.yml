@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 ---
 # handlers file for website
 - name: Restart Apache
@@ -6,3 +7,13 @@
 - name: Restart Firewall
   service: name=firewalld state=restarted
   listen: 'restart firewall'
+=======
+---
+# handlers file for website
+- name: Restart Apache
+      service: name=httpd state=restarted
+      listen: 'restart webserver'
+- name: Restart Firewall
+  service: name=firewalld state=restarted
+  listen: 'restart firewall'
+>>>>>>> 3180fe9e55488e5e7d7cf18e756cabd91fbf62aa
