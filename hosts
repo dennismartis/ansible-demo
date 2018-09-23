@@ -1,15 +1,7 @@
-web01
-web02
-localhost
-
-[web]
-web01
-web02
-
-[linux]
-localhost
-web01
-web02
+[nodes]
+node1	ansible_host=172.17.177.21
+node2	ansible_host=172.17.177.22
+node3	ansible_host=172.17.177.23
 
 [win]
 win2016
@@ -20,9 +12,6 @@ ansible_password=Test1234
 ansible_connection=winrm
 ansible_winrm_server_cert_validation=ignore
 
-[vagrant]
-10.0.2.13
-
-[vagrant_vars]
+[nodes_vars]
 ansible_user=vagrant
 ansible_password=vagrant

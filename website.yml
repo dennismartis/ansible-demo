@@ -1,5 +1,5 @@
 ---
-- hosts: web
+- hosts: node1
   become: yes
   tasks:
     - name: Install Apache
@@ -20,7 +20,7 @@
       notify: restart webserver
     - name: Unarchive website content
       unarchive:
-        src: /home/dennis/website.tgz
+        src: website.tgz
         dest: /var/www/html
     - name: Enable http in firewall config
       firewalld:
