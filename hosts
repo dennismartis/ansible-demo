@@ -1,7 +1,7 @@
 172.17.177.21
 172.17.177.22
 172.17.177.23
-
+node1.localdomain
 [nodes]
 node1	ansible_host=172.17.177.21
 node2	ansible_host=172.17.177.22
