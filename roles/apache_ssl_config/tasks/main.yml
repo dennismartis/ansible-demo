@@ -1,2 +1,5 @@
 ---
 # tasks file for apache_ssl_config
+- name: Copy ssl config to server
+  template: src=ssl.conf.j2 dest="{{ ssl_conf_path }}"
+  notify: restart_apache

@@ -4,3 +4,4 @@
   roles:
     - website
     - create_selfsigned_certificate
+    - apache_ssl_config
