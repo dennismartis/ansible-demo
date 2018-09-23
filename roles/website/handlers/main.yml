@@ -1,8 +1,8 @@
 ---
 # handlers file for website
 - name: Restart Apache
-      service: name=httpd state=restarted
-      listen: 'restart webserver'
+  service: name=httpd state=restarted
+  listen: 'restart webserver'
 - name: Restart Firewall
   service: name=firewalld state=restarted
   listen: 'restart firewall'

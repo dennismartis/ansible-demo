@@ -1,7 +1,7 @@
 ---
 # tasks file for website
 - name: Install Apache
-      yum: name=httpd state=installed
+  yum: name=httpd state=installed
 - name: Start and enable Apache
   service: name=httpd state=started enabled=yes
 - name: Set Apache config to listen to port 8080
