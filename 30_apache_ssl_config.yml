@@ -10,8 +10,8 @@
     - name: Copy ssl config to server
       template: src=ssl.conf.j2 dest="{{ ssl_conf_path }}"
       notify: restart_apache
-    - name: Copy config to redirect requests on port 80
-      template: src=000-default-conf.j2 dest="{{ redirect_conf }}"
+    - name: Create /etc/apache/sites-available
+      file: path="{{ redirect_conf | dirname }}" state=directory
   handlers:
     - name: Restart Apache
       service: name=httpd state=restarted
