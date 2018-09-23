@@ -8,8 +8,8 @@
   tasks:
     - name: Copy ssl config to server
       template: src=ssl.conf.j2 dest="{{ ssl_conf_path }}"
-      notify: restart apache
+      notify: restart_apache
   handlers:
     - name: Restart Apache
       service: name=httpd state=restarted
-      listen: restart apache
+      listen: restart_apache

@@ -15,12 +15,18 @@
       notify: restart webserver
     - name: Unarchive website content
       unarchive: src=website.tgz dest=/var/www/html
-    - name: Enable http in firewall config
-      firewalld: service=http state=enabled permanent=yes
+    - name: Enable http and https in firewall config
+      firewalld: service="{{item}}" state=enabled permanent=yes
+      loop:
+        - http
+        - https
       notify: restart firewall
-    - name: Enable tcp port 8080 in firewall config
-      firewalld: port=8080/tcp state=enabled permanent=yes
+    - name: Enable tcp port 8080 and 443 in firewall config
+      firewalld: port="{{item}}" state=enabled permanent=yes
       notify: restart firewall
+      loop:
+        - 8080/tcp
+        - 443/tcp
   handlers:
     - name: Restart Apache
       service: name=httpd state=restarted
