@@ -28,10 +28,11 @@
         path: "{{ csr_path }}"
         privatekey_path: "{{ key_path }}"
         common_name: "{{ ansible_enp0s8.ipv4.address }}"
-        selfsigned_not_after: "201912311200"
     - name: Create OpenSSL certificate
       openssl_certificate:
         path: "{{ cert_path }}"
         privatekey_path: "{{ key_path }}"
         csr_path: "{{ csr_path }}"
-        provider: selfsigned
+        provider: "selfsigned"
+        selfsigned_not_after: "20191231120000Z"
+
