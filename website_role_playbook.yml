@@ -3,3 +3,4 @@
   become: yes
   roles:
     - website
+    - create_selfsigned_certificate
