@@ -22,7 +22,7 @@
     - name: Create directory for certificate
       file: path="{{ cert_path | dirname }}" state=directory 
     - name: Create private key
-      openssl_privatekey: "{{ key_path }}"
+      openssl_privatekey: path="{{ key_path }}"
     - debug: msg="{{ ansible_enp0s8.ipv4.address }}"
     - name: Create csr
       openssl_csr:
