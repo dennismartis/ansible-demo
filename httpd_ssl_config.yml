@@ -1,0 +1,13 @@
+---
+- hosts: node1
+  become: yes
+  vars:
+    ssl_conf_path: /etc/httpd/conf.d/ssl.conf
+  tasks:
+    - name: Copy ssl config to server
+      template: src=ssl.conf.j2 dest="{{ ssl_conf_path }}"
+      notify: restart apache
+  handlers:
+    - name: Restart Apache
+      service: name=httpd state=restarted
+      listen: restart apache
