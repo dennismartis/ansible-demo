@@ -1,0 +1,4 @@
+<VirtualHost *:80>
+        ServerName {{ ansible_enp0s8.ipv4.address }}
+        Redirect "/" "https://{{ ansible_enp0s8.ipv4.address }}/home.html"
+</VirtualHost>
