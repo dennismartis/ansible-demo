@@ -23,12 +23,12 @@
       file: path="{{ cert_path | dirname }}" state=directory 
     - name: Create private key
       openssl_privatekey: path="{{ key_path }}"
-    - debug: msg="{{ ansible_enp0s8.ipv4.address }}"
     - name: Create csr
       openssl_csr:
         path: "{{ csr_path }}"
         privatekey_path: "{{ key_path }}"
         common_name: "{{ ansible_enp0s8.ipv4.address }}"
+        selfsigned_not_after: "201912311200"
     - name: Create OpenSSL certificate
       openssl_certificate:
         path: "{{ cert_path }}"
