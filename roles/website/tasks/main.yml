@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 ---
 # tasks file for website
 - name: Install Apache
@@ -20,26 +19,3 @@
 - name: Enable tcp port 8080 in firewall config
   firewalld: port=8080/tcp state=enabled permanent=yes
   notify: restart firewall
-=======
----
-# tasks file for website
-- name: Install Apache
-      yum: name=httpd state=installed
-- name: Start and enable Apache
-  service: name=httpd state=started enabled=yes
-- name: Set Apache config to listen to port 8080
-  lineinfile:
-    path: /etc/httpd/conf/httpd.conf
-    regexp: '^Listen'
-    insertafter: '^#Listen'
-    line: 'Listen 0.0.0.0:8080'
-  notify: restart webserver
-- name: Unarchive website content
-  unarchive: src=website.tgz dest=/var/www/html
-- name: Enable http in firewall config
-  firewalld: service=http state=enabled permanent=yes
-  notify: restart firewall
-- name: Enable tcp port 8080 in firewall config
-  firewalld: port=8080/tcp state=enabled permanent=yes
-  notify: restart firewall
->>>>>>> 3180fe9e55488e5e7d7cf18e756cabd91fbf62aa
