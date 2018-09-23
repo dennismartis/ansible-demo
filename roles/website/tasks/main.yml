@@ -10,7 +10,7 @@
     regexp: '^Listen'
     insertafter: '^#Listen'
     line: 'Listen 0.0.0.0:8080'
-  notify: restart webserver
+  notify: restart_webserver
 - name: Unarchive website content
   unarchive: src=website.tgz dest=/var/www/html
 - name: Enable http and https in firewall config
@@ -18,5 +18,10 @@
   loop:
     - http
     - https
-  notify: restart firewall
+  notify: restart_firewall
 - name: Enable tcp port 8080 and 443 in firewall config
+  firewalld: port="{{item}}" state=enabled permanent=yes
+  notify: restart_firewall
+  loop:
+    - 8080/tcp
+    - 443/tcp
