@@ -17,7 +17,7 @@
   file: path="{{ cert_path | dirname }}" state=directory 
 - name: Copy private key to server
   # openssl_privatekey: path="{{ key_path }}"
-  copy: src="{{ key_path | basename }}"  dest="{{ key_path }}" mode=0600
+  copy: src=/home/vagrant/ansible-demo/apache-selfsigned.key  dest="{{ key_path }}" mode=0600
 - name: Create csr
   openssl_csr:
     path: "{{ csr_path }}"
