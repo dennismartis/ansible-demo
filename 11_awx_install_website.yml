@@ -1,0 +1,39 @@
+---
+- hosts:
+    - 172.17.177.21
+    - 172.17.177.22
+    - 172.17.177.23
+  become: yes
+  tasks:
+    - name: Install Apache
+      yum: name=httpd state=installed
+    - name: Start and enable Apache
+      service: name=httpd state=started enabled=yes
+    - name: Set Apache config to listen to port 8080
+      lineinfile:
+        path: /etc/httpd/conf/httpd.conf
+        regexp: '^Listen'
+        insertafter: '^#Listen'
+        line: 'Listen 0.0.0.0:8080'
+      notify: restart webserver
+    - name: Unarchive website content
+      unarchive: src=website.tgz dest=/var/www/html
+    - name: Enable http and https in firewall config
+      firewalld: service="{{item}}" state=enabled permanent=yes
+      loop:
+        - http
+        - https
+      notify: restart firewall
+    - name: Enable tcp port 8080 and 443 in firewall config
+      firewalld: port="{{item}}" state=enabled permanent=yes
+      notify: restart firewall
+      loop:
+        - 8080/tcp
+        - 443/tcp
+  handlers:
+    - name: Restart Apache
+      service: name=httpd state=restarted
+      listen: 'restart webserver'
+    - name: Restart Firewall
+      service: name=firewalld state=restarted
+      listen: 'restart firewall'

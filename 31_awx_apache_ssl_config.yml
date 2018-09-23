@@ -1,0 +1,18 @@
+---
+- hosts:
+    - 172.17.177.21
+    - 172.17.177.22
+    - 172.17.177.23
+  become: yes
+  vars:
+    ssl_conf_path: /etc/httpd/conf.d/ssl.conf
+    key_path: "/etc/ssl/private/apache-selfsigned.key"
+    cert_path: "/etc/ssl/certs/apache-selfsigned.crt"
+  tasks:
+    - name: Copy ssl config to server
+      template: src=ssl.conf.j2 dest="{{ ssl_conf_path }}"
+      notify: restart_apache
+  handlers:
+    - name: Restart Apache
+      service: name=httpd state=restarted
+      listen: restart_apache

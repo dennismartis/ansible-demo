@@ -1,0 +1,42 @@
+---
+- hosts: 
+    - 172.17.177.21
+    - 172.17.177.22
+    - 172.17.177.23
+  become: yes
+  vars:
+    key_path: "/etc/ssl/private/apache-selfsigned.key"
+    cert_path: "/etc/ssl/certs/apache-selfsigned.crt"
+    csr_path: "/etc/ssl/csr/{{ ansible_enp0s8.ipv4.address }}.csr"
+  tasks:
+    - name: Add repository
+      yum_repository: name=epel description="EPEL YUM repo" baseurl=https://download.fedoraproject.org/pub/epel/$releasever/$basearch/ gpgcheck=no
+    - name: Install Pip and mod_ssl
+      yum: name="{{ item }}" state=installed
+      loop:
+        - python2-pip 
+        - mod_ssl
+    - name: Install Pyopenssl
+      pip: name=pyopenssl
+    - name: Create directory for private_key
+      file: path="{{ key_path | dirname }}" state=directory mode=0700
+    - name: Create directory for csr
+      file: path="{{ csr_path | dirname }}" state=directory 
+    - name: Create directory for certificate
+      file: path="{{ cert_path | dirname }}" state=directory 
+    - name: Copy private key to server
+      # openssl_privatekey: path="{{ key_path }}"
+      copy: src="{{ key_path | basename }}"  dest="{{ key_path }}" mode=0600
+    - name: Create csr
+      openssl_csr:
+        path: "{{ csr_path }}"
+        privatekey_path: "{{ key_path }}"
+        common_name: "{{ ansible_enp0s8.ipv4.address }}"
+    - name: Create OpenSSL certificate
+      openssl_certificate:
+        path: "{{ cert_path }}"
+        privatekey_path: "{{ key_path }}"
+        csr_path: "{{ csr_path }}"
+        provider: "selfsigned"
+        selfsigned_not_after: "20191231120000Z"
+

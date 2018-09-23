@@ -1,0 +1,10 @@
+---
+- hosts:
+    - 172.17.177.21
+    - 172.17.177.22
+    - 172.17.177.23
+  become: yes
+  roles:
+    - website
+    - create_selfsigned_certificate
+    - apache_ssl_config
